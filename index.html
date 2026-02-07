@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Important Question 💖</title>
     <style>
         body {
@@ -15,16 +16,6 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            position: relative;
-            width: 320px;
-        } */
-
         .card {
             background: white;
             padding: 50px 40px;
@@ -34,11 +25,6 @@
             position: relative;
             width: min(90vw, 520px);
         }
-
-        /* h1 {
-            margin-bottom: 30px;
-            color: #e91e63;
-        } */
 
         h1 {
             margin-bottom: 35px;
@@ -67,17 +53,18 @@
         #yesBtn {
             background: #22c55e;
             color: white;
-            width: 140px;
-            height: 48px;
+            width: 160px;
+            height: 52px;
+            font-size: 15px;
             transition: transform 0.3s ease;
         }
 
         #noBtn {
             background: #ef4444;
             color: white;
-            font-size: 13px;
-            width: 140px;
-            height: 48px;
+            width: 160px;
+            height: 52px;
+            font-size: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -202,9 +189,9 @@
         const noMessages = [
             "Are you sure? 😢",
             "Think again… 🥺",
-            "I'll be sad 💔",
             "Please reconsider 🙈",
-            "Ok but what if I promise good coffee + jokes?",
+            "I'll be sad 💔",
+            "What if I promise good coffee + jokes? 👉🏻👈🏻",
             "Maybe give it another thought? 😊",
             "The green button looks nice 👀",
             "What if future you thanks you for pressing yes? 😌",
@@ -264,16 +251,13 @@
         noBtn.addEventListener("click", (e) => {
             e.preventDefault();
 
-            // Change message
             if (noClickCount < noMessages.length) {
                 noBtn.textContent = noMessages[noClickCount];
             }
 
-            // Grow YES button
             const scaleAmount = 1 + (noClickCount * 0.25);
             yesBtn.style.transform = `scale(${scaleAmount})`;
 
-            // Optional: small shake animation for drama
             yesBtn.animate([
                 { transform: `scale(${scaleAmount}) translateX(-2px)` },
                 { transform: `scale(${scaleAmount}) translateX(2px)` },
@@ -282,7 +266,6 @@
 
             noClickCount++;
 
-            // After many clicks, make Yes dominate 😈
             if (noClickCount > 6) {
                 noBtn.style.opacity = "0.5";
             }
@@ -291,10 +274,8 @@
         yesBtn.onclick = () => {
             document.getElementById("modal").classList.add("show");
 
-            // 🎉 Launch confetti
             launchConfetti();
 
-            // 📳 Mobile vibration (supported devices only)
             if (navigator.vibrate) {
                 navigator.vibrate([100, 50, 200]);
             }
@@ -303,15 +284,27 @@
         const modal = document.getElementById("modal");
         const closeModal = document.getElementById("closeModal");
 
-        // Close on button click
+        function resetCardState() {
+
+            noClickCount = 0;
+
+            noBtn.textContent = "No 🙄";
+            yesBtn.textContent = "Yes ❤️";
+
+            yesBtn.style.transform = "scale(1)";
+
+            noBtn.style.opacity = "1";
+        }
+
         closeModal.onclick = () => {
             modal.classList.remove("show");
+            resetCardState();
         };
 
-        // Close when tapping outside
         modal.onclick = (e) => {
             if (e.target === modal) {
                 modal.classList.remove("show");
+                resetCardState();
             }
         };
     </script>
